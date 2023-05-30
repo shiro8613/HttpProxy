@@ -11,6 +11,9 @@ func Proxy(handlers Proxys) http.Handler {
 		for k, v := range handlers {
 			if strings.Contains(r.URL.Path, k) {
 				bo = true
+				if r.URL.Path == k && r.URL.Path != (k + "/") {
+					http.Redirect(w, r, k + "/", http.StatusFound)
+				}
 				v.ServeHTTP(w, r)
 			}
 		}
