@@ -14,7 +14,7 @@ func Logger(next http.Handler) http.Handler {
 		nl := newLoggingResponseWriter(w)
 		next.ServeHTTP(nl, r)
 
-		time := time.Now().Format("02/01/2006THH:MM:SS")
+		time := time.Now().Format("02/01/2006T15:04:05")
 		log := fmt.Sprintf(`[ProxyLog] %s - - [%s] "%s %s %s" %d -`, r.RemoteAddr, time, r.Method, r.URL.Path, r.Proto, nl.statusCode)
 		fmt.Println(log)
 	})
