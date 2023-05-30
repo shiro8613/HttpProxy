@@ -11,14 +11,13 @@ func Proxy(handlers Proxys) http.Handler {
 			if strings.Contains(r.URL.Path, k) {
 				if r.URL.Path == k && r.URL.Path != (k + "/") {
 					http.Redirect(w, r, k + "/", http.StatusFound)
-　　　return
+					return
 				}
 				v.ServeHTTP(w, r)
-    return
+				return
 			}
 		}
 
-			w.WriteHeader(http.StatusNotFound)
-		
+		w.WriteHeader(http.StatusNotFound)
 	})
 }
