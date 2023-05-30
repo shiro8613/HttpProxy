@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -13,7 +14,11 @@ import (
 )
 
 func main() {
-	config, err := config.LoadAndCreate("./config.yml")
+
+	var c = flag.String("c" , "./config.yml", "-c /a/b/config.yml")
+	flag.Parse()
+
+	config, err := config.LoadAndCreate(*c)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
