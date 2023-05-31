@@ -1,8 +1,6 @@
 package proxy
 
 import (
-	"net/http"
-	"net/http/httputil"
 	"fmt"
 	"strings"
 
@@ -25,12 +23,10 @@ func Build(config config.Config) Proxys {
 			continue
 		}
 
-		handlers[v.Path] = httputil.ReverseProxy{
-			Director: func(request *http.Request) {
-				request.URL.Scheme = schem
-				request.URL.Host = host
-				request.URL.Path = strings.Replace(request.URL.Path, v.Path, "", -1)
-			},
+		handlers[v.Path] = ProxyWare{
+			host: host,
+			schem: schem,
+			path: v.Path,
 		}
 
 		fmt.Printf("[Proxy:%s] http://%s%s -> %s\n",k ,config.Listen, v.Path, v.ProxyPass)

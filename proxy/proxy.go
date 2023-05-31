@@ -13,7 +13,8 @@ func Proxy(handlers Proxys) http.Handler {
 					http.Redirect(w, r, k + "/", http.StatusFound)
 					return
 				}
-				v.ServeHTTP(w, r)
+				reverseProxy := v.get()
+				reverseProxy.ServeHTTP(w, r)
 				return
 			}
 		}

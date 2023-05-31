@@ -1,5 +1,9 @@
 package proxy
 
-import "net/http/httputil"
+type Proxys map[string]ProxyWare
 
-type Proxys map[string]httputil.ReverseProxy
+type ProxyWare struct {
+	host string
+	schem string
+	path string
+}
