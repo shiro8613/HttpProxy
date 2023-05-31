@@ -32,9 +32,20 @@ func main() {
         signal.Notify(trap, syscall.SIGTERM, syscall.SIGHUP, syscall.SIGINT)
         s := <-trap
         fmt.Printf("Received shutdown signal %s\n", s)
-        fmt.Printf("Shutdown gracefully....\n")
-        os.Exit(0)
-    }()
+		exit()
+	}()
+
+	go func () {
+		for {
+			var str string
+			fmt.Scan(&str)
+			if str == "stop" {
+				exit()
+			} else {
+				fmt.Println("Commands not found")
+			}
+		}
+	}()
 	
 	err = http.ListenAndServe(config.Listen, logger.Logger(proxy.Proxy(proxy.Build(config))))
 	if err != nil {
@@ -43,3 +54,7 @@ func main() {
 	}
 }
 
+func exit() {
+	fmt.Printf("Shutdown gracefully....\n")
+	os.Exit(0)
+}
